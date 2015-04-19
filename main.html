@@ -60,11 +60,11 @@
                     <li>
                         <a class="page-scroll" href="#about">About</a>
                     </li>
+                   <!--  <li>
+                        <a class="page-scroll" href="signup.html">Sign-Up</a>
+                    </li> -->
                     <li>
-                        <a class="page-scroll" href="profile.html">Profiles</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="rewards.html">My Rewards</a>
+                        <a class="page-scroll" href="charts/index.html">My Rewards</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -246,7 +246,7 @@
     <aside class="bg-dark">
         <div class="container text-center">
             <div class="call-to-action">
-                <h2>Sold! Join the crew!</h2>
+                <h2>Sold! Let's get started!</h2>
                 <a href="#" class="btn btn-default btn-xl wow tada">Let's Play!</a>
             </div>
         </div>
@@ -285,6 +285,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="js/creative.js"></script>
+    <script src="pubapi.js"></script>
      <script charset="utf-8">
 
     var PUBNUB_demo = PUBNUB.init({
@@ -295,13 +296,41 @@
       (function(){
     
         var PUBNUB_demo = PUBNUB.init({
-          publish_key: 'pub-c-35489623-546c-4c7a-ae0e-f5be885db61c',
-          subscribe_key: 'sub-c-1905cd86-e60c-11e4-8e57-02ee2ddab7fe'
+          publish_key: PUBNUB_KEY,
+          subscribe_key: subscribe_key
         });
         
         PUBNUB_demo.subscribe({
           channel: 'chorify',
-          message: function(m){console.log(m)},
+          message: function(m){
+            console.log(m);
+            if (m == "clean") {
+              console.log("email sent");
+              console.log(SEND_EMAIL);
+              $.ajax({
+                  type: 'POST',
+                  url: 'https://mandrillapp.com/api/1.0/messages/send.json',
+                  data: {
+                      'key': SEND_EMAIL,
+                      'message': {
+                          'from_email': 'chorify.iot@gmail.com',
+                          'to': [
+                              {
+                                  'email': 'sanasehereen.cse@gmail.com',
+                                  'type': 'to'
+                              }
+                          ],
+                          'autotext': 'true',
+                          'subject': 'Chorify E-mail Alert!',
+                          'html': '<img src="http://thumbs.dreamstime.com/z/winner-badge-1543373.jpg" width="300" height="300" alt="Badges"> <br/> Dont forget to make your bed! Chorify does it for you ;)'
+                }   
+            }
+                  }).done(function(response) {
+                      console.log(response);
+                  });
+            }
+            
+          },
           connect : publish
         });
         
