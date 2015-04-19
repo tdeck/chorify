@@ -12,6 +12,7 @@ body {
 
 body {
     font-family: Merriweather,'Helvetica Neue',Arial,sans-serif;
+/*    font-family: 'Courgette', cursive;*/
 }
 
 hr {
@@ -43,6 +44,8 @@ h4,
 h5,
 h6 {
     font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+/*    font-family: 'Courgette', cursive;*/
+   /* font-family: 'Oxygen', sans-serif;*/
 }
 
 p {
